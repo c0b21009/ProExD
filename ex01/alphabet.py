@@ -1,5 +1,6 @@
 import random
 import copy
+import time
 
 if __name__ == "__main__":
     a=0
@@ -19,6 +20,7 @@ if __name__ == "__main__":
         print(ansList)
         print("表示文字")
         print(quizList)
+        st = time.perf_counter()
         print("欠落文字")
         print(disList)
         totalans=input("欠損文字はいくつあるでしょうか？：")
@@ -30,14 +32,16 @@ if __name__ == "__main__":
             if len(ansList)==3:
                 print("正解！")
                 a=True
+                ed = time.perf_counter()
             else:
                 print("不正解です。またチャレンジしてください")
+                ed = time.perf_counter()
+        print(ed-st)
         b+=1
+        print("aaaaa")
     
     
-            
-        
-    
+    ##時間機能の追加##
         
         
         
