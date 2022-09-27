@@ -8,7 +8,7 @@ if __name__ == "__main__":
     trynum=2
     num = 5
     denum = 2
-    alList=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    alList=[chr(i) for i in range(65, 65+26)]
     while a==0 and trynum>b:
         ansList=list(random.sample(alList,num))
         quizList=list(random.sample(ansList,num-denum))
