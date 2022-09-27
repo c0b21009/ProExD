@@ -36,9 +36,9 @@ if __name__ == "__main__":
             else:
                 print("不正解です。またチャレンジしてください")
                 ed = time.perf_counter()
-        print(ed-st)
-        b+=1
-        print("aaaaa")
+            print(ed-st)
+            b+=1
+            print("aaaaa")
     
     
     ##時間機能の追加##
