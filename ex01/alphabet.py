@@ -1,47 +1,59 @@
 import random
-import copy
 import time
 
-if __name__ == "__main__":
-    a=0
-    b=0
-    trynum=2
-    num = 5
-    denum = 2
-    alList=[chr(i) for i in range(65, 65+26)]
-    while a==0 and trynum>b:
-        ansList=list(random.sample(alList,num))
-        quizList=list(random.sample(ansList,num-denum))
-        disList=copy.copy(ansList)
-        for i in quizList:
-            if i in quizList:
-                disList.remove(i)
-        print("対象文字")
-        print(ansList)
-        print("表示文字")
-        print(quizList)
-        st = time.perf_counter()
-        print("欠落文字")
-        print(disList)
-        totalans=input("欠損文字はいくつあるでしょうか？：")
-        if totalans==str(denum):
-            for i in range(denum):
-                ans=input(str(i+1)+"つ目の文字を入力してください")
-                if ans in ansList:
-                    ansList.remove(ans)
-            if len(ansList)==3:
-                print("正解！")
-                a=True
-                ed = time.perf_counter()
+num_of_alphabet = 26  # 全アルファベット数
+num_of_all_chars = 10 # 対象文字数
+num_of_abs_chars = 2  # 欠損文字数
+num_of_trials = 2 # チャレンジできる回数
+
+def shutudai(alphabet):
+    # 全アルファベットから，対象文字をランダムに10文字選ぶ
+    all_chars = random.sample(alphabet, num_of_all_chars)
+    print("対象文字：", end="")
+    for c in sorted(all_chars): 
+        print(c, end=" ")
+    print()
+
+    # 対象10文字から，欠損文字をランダムに2文字選ぶ
+    abs_chars = random.sample(all_chars, num_of_abs_chars)
+    print("表示文字：", end="")
+    for c in all_chars: 
+        if c not in abs_chars: # 欠損文字でなかったら表示
+            print(c, end=" ")
+    print()
+    print("デバッグ用欠損文字：", abs_chars)
+    return abs_chars
+
+
+def kaito(seikai):
+    num = int(input("欠損文字はいくつあるでしょうか？："))
+    if num != num_of_abs_chars:
+        print("不正解です．")
+    else:
+        print("正解です．では，具体的に欠損文字を1つずつ入力してください．")
+        for i in range(num):
+            c = input(f"{i+1}文字目を入力してください：")
+            if c not in seikai:
+                print("不正解です．またチャレンジしてください．")
+                return False
             else:
-                print("不正解です。またチャレンジしてください")
-                ed = time.perf_counter()
-            print(ed-st)
-            b+=1
-            print("aaaaa")
-    
-    
-    ##時間機能の追加##
-        
-        
-        
+                seikai.remove(c) # 正解した場合，その文字を正解リストから削除する（重複回答を防ぐため）
+        else:
+            print("欠損文字も含めて完全正解です！！！")
+            return True
+    return False
+
+
+if __name__ == "__main__":
+    st = time.time()
+    alphabet = [chr(i+65) for i in range(num_of_alphabet)]
+    #print(alphabet)
+    for _ in range(num_of_trials):
+        abs_chars = shutudai(alphabet)  
+        ret = kaito(abs_chars)
+        if ret:
+            break
+        else:
+            print("-"*20)
+    ed = time.time()
+    print(f"所要時間：{(ed-st):.2f}秒")
