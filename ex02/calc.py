@@ -4,11 +4,16 @@ import tkinter.messagebox as tkm
 def btn_click(event):
     btn=event.widget
     txt=btn["text"]
-    tkm.showinfo(f"{txt}", f"[{txt}]のボタンがクリックされました")
+    #tkm.showinfo(f"{txt}", f"[{txt}]のボタンがクリックされました")
     entry.insert(tk.END, txt)
-    return "break"
+    
     #0tk.ENDを0にすると2つ目の入力が十の位になる
-
+def equal(event):
+    eqn = entry.get()
+    res = eval(eqn)
+    entry.delete(0, tk.END)
+    entry.insert(tk.END, res)
+    
 root = tk.Tk()
 root.title("tk")
 root.geometry("300x600")
@@ -34,4 +39,8 @@ for i in range(10):
 btn = tk.Button(root, text="+", font=("Times New Roman", 30), width=4, height=2)
 btn.bind("<1>", btn_click)
 btn.grid(row=4, column=2)
+
+btn = tk.Button(root, text="=", font=("Times New Roman", 30), width=4, height=2)
+btn.bind("<1>", equal)
+btn.grid(row=4, column=3)
 root.mainloop()
