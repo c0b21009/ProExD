@@ -14,9 +14,12 @@ def equal(event):
     entry.delete(0, tk.END)
     entry.insert(tk.END, res)
     
+def delete(event):
+    entry.delete(0, tk.END)
+    
 root = tk.Tk()
 root.title("tk")
-root.geometry("300x600")
+root.geometry("500x600")
 
 entry = tk.Entry(root, justify="right",width=10,font=("Times New Roman", 40))
 #justify 右揃え
@@ -40,7 +43,35 @@ btn = tk.Button(root, text="+", font=("Times New Roman", 30), width=4, height=2)
 btn.bind("<1>", btn_click)
 btn.grid(row=4, column=2)
 
-btn = tk.Button(root, text="=", font=("Times New Roman", 30), width=4, height=2)
-btn.bind("<1>", equal)
+btn = tk.Button(root, text="-", font=("Times New Roman", 30), width=4, height=2)
+btn.bind("<1>", btn_click)
 btn.grid(row=4, column=3)
+
+btn = tk.Button(root, text="*", font=("Times New Roman", 30), width=4, height=2)
+btn.bind("<1>", btn_click)
+btn.grid(row=2, column=4)
+
+btn = tk.Button(root, text="/", font=("Times New Roman", 30), width=4, height=2)
+btn.bind("<1>", btn_click)
+btn.grid(row=3, column=4)
+
+btn = tk.Button(root, text="=", font=("Times New Roman", 30), width=9, height=2)
+btn.bind("<1>", equal)
+btn.grid(row=4, column=4, columnspan=2)
+
+btn = tk.Button(root, text="C", font=("Times New Roman", 30), width=4, height=2)
+btn.bind("<1>", delete)
+btn.grid(row=1, column=4)
+
+btn = tk.Button(root, text="(", font=("Times New Roman", 30), width=4, height=2)
+btn.bind("<1>", btn_click)
+btn.grid(row=1, column=5)
+
+btn = tk.Button(root, text=")", font=("Times New Roman", 30), width=4, height=2)
+btn.bind("<1>", btn_click)
+btn.grid(row=2, column=5)
+
+btn = tk.Button(root, text=".", font=("Times New Roman", 30), width=4, height=2)
+btn.bind("<1>", btn_click)
+btn.grid(row=3, column=5)
 root.mainloop()
