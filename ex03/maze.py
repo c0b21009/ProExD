@@ -1,7 +1,6 @@
 import tkinter as tk
 import maze_maker as mm #8
 import tkinter.messagebox as tkm
-import time
 import random
 
 # 5
@@ -18,13 +17,10 @@ def key_up(event):
 
 # 7
 def main_proc():
-    global mx, my
-    global cx, cy
-    global lx, ly
-    global tmr,tmr2
-    global px, py
-    tmr +=1
-    tmr2 +=0.1
+    global mx, my, cx, cy, lx, ly, tmr, tmr2, px, py
+    
+    tmr +=1 #ライオンの座標を決めるための変数
+    tmr2 +=0.1 #タイム
     
     if key == "Up":
         my -= 1
@@ -47,8 +43,10 @@ def main_proc():
             mx -= 1
     if tmr>130:
         tmr=0
-    lx=(tmr%15)*100+50
+    #ライオンの座標指定
+    lx=(tmr%15)*100+50 
     ly=(tmr//15)*100+50
+    #当たり判定のないキャラの座標指定
     px=random.randint(0, 1500)
     py=random.randint(0, 900)
     
@@ -56,8 +54,9 @@ def main_proc():
     canv.coords("lion", lx, ly)
     canv.coords("pen", px, py)
     
-    if lx==cx and ly==cy:
+    if lx==cx and ly==cy:#ライオンと座標が一致したときのイベント
         tkm.showwarning("危ない！", "食べられちゃったー"+str(tmr2)+"秒逃げたよ")
+        #初期化
         tori = tk.PhotoImage(file="fig/5.png") 
         mx, my = 1, 1
         cx, cy = mx*100+50, my*100+50
@@ -85,15 +84,16 @@ if __name__ == "__main__":
     mm.show_maze(canv, maze_lst) 
 
     # 3
+    #こうかとんの設定
     tori = tk.PhotoImage(file="fig/5.png") 
     mx, my = 1, 1
     cx, cy = mx*100+50, my*100+50
     canv.create_image(cx, cy, image=tori, tag="tori")
-    
+    #ライオンの設定
     lion = tk.PhotoImage(file="fig/3926.png") 
     lx, ly = 100-50, 100-50
     canv.create_image(lx, ly, image=lion, tag="lion")
-    
+    #当たり判定のないキャラの設定
     pen = tk.PhotoImage(file="fig/3926.png") 
     px, py =0,0
     canv.create_image(px, py, image=pen, tag="pen")
