@@ -3,6 +3,8 @@ import pygame as pg
 import sys
 from random import randint
 import tkinter.messagebox as tkm
+def gameover():
+    tkm.showwarning("あっ","はじけっちゃったwwww\n"+str(tmr)+"秒逃げたよ")
 def check_bound(obj_rct, scr_rct):
     """
     obj_rct：こうかとんrct，または，爆弾rct
@@ -105,10 +107,10 @@ def main():
         scrn_sfc.blit(bomb2_sfc, bomb2_rct) # 練習5
         tmr+=0.001
         if tori_rct.colliderect(bomb_rct):
-            tkm.showwarning("あっ","はじけっちゃったwwww\n"+str(tmr)+"秒逃げたよ")
+            gameover()
             return
         if tori_rct.colliderect(bomb2_rct):
-            tkm.showwarning("あっ","はじけっちゃったwwww\n"+str(tmr)+"秒逃げたよ")
+            gameover()
             return
         
         pg.display.update() #練習2
