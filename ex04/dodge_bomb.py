@@ -1,7 +1,8 @@
+from pygame.locals import *
 import pygame as pg
 import sys
 from random import randint
-
+import tkinter.messagebox as tkm
 def check_bound(obj_rct, scr_rct):
     """
     obj_rct：こうかとんrct，または，爆弾rct
@@ -17,6 +18,7 @@ def check_bound(obj_rct, scr_rct):
 
 
 def main():
+    global tmr
     # 練習1
     pg.display.set_caption("逃げろ！こうかとん")
     scrn_sfc = pg.display.set_mode((1600, 900))
@@ -39,7 +41,14 @@ def main():
     bomb_rct.centery = randint(0, scrn_rct.height)
     # 練習6
     vx, vy = +1, +1
-
+    
+    bomb2_sfc = pg.Surface((20, 20)) # 空のSurface
+    bomb2_sfc.set_colorkey((0, 0, 0)) # 四隅の黒い部分を透過させる
+    pg.draw.circle(bomb2_sfc, (255, 0, 0), (10, 10), 10) # 円を描く
+    bomb2_rct = bomb_sfc.get_rect()
+    bomb2_rct.centerx = randint(0, scrn_rct.width)
+    bomb2_rct.centery = randint(0, scrn_rct.height)
+    vx2, vy2 = +2, +2
 
     clock = pg.time.Clock() # 練習1
     while True:
@@ -48,6 +57,21 @@ def main():
         for event in pg.event.get(): # 練習2
             if event.type == pg.QUIT:
                 return
+            if event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                     vx, vy = 0, 0
+                     vx2, vy2 = 0, 0
+                if event.key == K_v:
+                    n=1.2
+                    vx *=n
+                    vy *=n
+                    vx2 *=n
+                    vy2 *=n
+                    
+            if event.type == KEYUP:
+                if event.key == K_SPACE:
+                     vx, vy = 1, 1
+                     vx2, vy2 = 2, 2
 
         key_states = pg.key.get_pressed()
         if key_states[pg.K_UP]:    tori_rct.centery -= 1
@@ -67,22 +91,36 @@ def main():
                 tori_rct.centery -= 1            
         scrn_sfc.blit(tori_sfc, tori_rct) # 練習3
 
-        # 連取7
         yoko, tate = check_bound(bomb_rct, scrn_rct)
         vx *= yoko
         vy *= tate
         bomb_rct.move_ip(vx, vy) # 練習6
         scrn_sfc.blit(bomb_sfc, bomb_rct) # 練習5
-
-        # 練習8
-        if tori_rct.colliderect(bomb_rct): # こうかとんrctが爆弾rctと重なったら
+        
+        
+        yoko, tate = check_bound(bomb2_rct, scrn_rct)
+        vx2 *= yoko
+        vy2 *= tate
+        bomb2_rct.move_ip(vx2, vy2) # 練習6
+        scrn_sfc.blit(bomb2_sfc, bomb2_rct) # 練習5
+        tmr+=0.001
+        if tori_rct.colliderect(bomb_rct):
+            tkm.showwarning("あっ","はじけっちゃったwwww\n"+str(tmr)+"秒逃げたよ")
             return
-
+        if tori_rct.colliderect(bomb2_rct):
+            tkm.showwarning("あっ","はじけっちゃったwwww\n"+str(tmr)+"秒逃げたよ")
+            return
+        
         pg.display.update() #練習2
         clock.tick(1000)
 
+
+   
+
+
 if __name__ == "__main__":
     pg.init() # 初期化
+    tmr=0.0
     main() # ゲームの本体
     pg.quit() # 初期化の解除
     sys.exit()
